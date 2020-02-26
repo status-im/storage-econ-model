@@ -1,2 +1,4 @@
-# status
-BlockScience collaboration with Status to build economic layer overlay on  Status messaging protocol.
+# BlockScience and Status Collaboration
+## Validation Model of Storage and Routing Network for Simulation and Testing
+### Using the cadCAD Differential Specification
+![Validation](/images/cadcad_ijkp.png)
