@@ -18,7 +18,10 @@ def p_gradient(params, substep, state_history, prev_state):
     list_length = prev_state['history'].solved
     if len(list_length) > 0:
         time = prev_state['history'].solved[-1].total_time
+        ############################################
+        ## FOR TESTING #############################
         time = time * np.random.normal(1,0.2)
+        #############################################
         # sending node, receiving node
         # MAKE K to J for distance
         # Keep i to p for TIME

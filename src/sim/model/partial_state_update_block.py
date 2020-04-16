@@ -101,13 +101,12 @@ partial_state_update_block = [
     },
     {
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # PROVE with P, Update gradient, Update zees, update escrow with tax and subsidy
+    # GRADIENT, Update gradient, Update zees, update escrow with tax and subsidy
         'policies': {
           'tax_subsidy':  p_gradient,
         },
         'variables': {
             'angles':  s_angles,
-            'network': s_network_proof_payment,
             'event' : s_reconcile,
             'treasury': s_treasury,
             'zees' : s_zees,

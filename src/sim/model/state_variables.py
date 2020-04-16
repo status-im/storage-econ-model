@@ -102,7 +102,7 @@ genesis_states = {
     'network': ij,
     'gross_storage_demand': 0,
     'least_storage_demand': 0, 
-    'PO': 0,
+#     'PO': 0,  #  FOr testing
 #     'test': 0, # For testing
     'event': Event(),
     'history': History(),
