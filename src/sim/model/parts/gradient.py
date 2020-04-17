@@ -76,6 +76,7 @@ def p_gradient(params, substep, state_history, prev_state):
         # probability of fake becomes a weight in the 2nd order model
             subsidy = 0
         else:
+            diff = np.abs(diff)
             subsidy_from_treasury = np.array(params['subsidy_treasury'], dtype = float) * diff * prev_state['treasury']
             subsidy_from_escrow = np.array(params['subsidy_escrow'], dtype = float) * diff * np.array(escrow, dtype = float)
             subsidy = min(subsidy_from_treasury, subsidy_from_escrow)
