@@ -1,5 +1,11 @@
 import networkx as nx
 import numpy as np
+import itertools
+
+# For A/B Test as Parameter Sweep
+# from .parts.gradient import p_gradient
+# from .parts.gradient_B import p_gradient_ORDER_OPS
+
 ### NETWORK INITIALIZATION ###############################
 # ij = nx.DiGraph()
 
@@ -47,10 +53,10 @@ BLOCK_TIME = [30]
 depth = [15]
 
 # TREASURY ACCOUNTING PARAMETERS
-STARTING_TREASURY_TOKENS = [0, 1000, 2000]
-TAX = [0.10]
-SUBSIDY_TREASURY = [0.10]
-SUBSIDY_ESCROW = [0.10]
+STARTING_TREASURY_TOKENS = [0] #[0, 1000, 2000]  #[0] #
+TAX = [0.05] #[0.05,0.10,0.15, 0.20][0.05] #  [0.05,0.10,0.15] #
+SUBSIDY_TREASURY =[0.10, 0.20, 0.30] # [0.20] #  #[0.05,0.10,0.15, 0.20]# [0.10] #
+SUBSIDY_ESCROW = [0.20] #[0.10, 0.20, 0.30] #[0.25] #[0.05,0.10,0.15, 0.20] 
 
 # ALLOCATION PARAMETERS
 ROUTE_ALLOCATION = [0.10]
@@ -59,6 +65,37 @@ PROVE_ALLOCATION = list(1 - np.array(ROUTE_ALLOCATION) - np.array(STORE_ALLOCATI
 
 # Prove Likelihood for Recipient J
 PROOF_LIKELIHOOD = [0.95]
+
+# A/B Test Functions
+# Bound Test
+# A_B_TESTS = ['bound', 'partition']
+# def calc_subsidy(param_test, subsidy_from_treasury, subsidy_from_escrow):
+#    if param_test == 'bound':
+#       subsidy = min(subsidy_from_treasury, subsidy_from_escrow)
+#    if param_test == 'partition':
+#       subsidy = subsidy_from_escrow + subsidy_from_treasury
+#    return subsidy
+# CONTROL = ''
+
+A_B_TESTS = ['Tax_Subsidy_First', 'Fake_Penalty_First']
+
+# Moved to gradient.py
+# def p_ORDER_TEST(params, substep, state_history, prev_state):
+#    if params['AB_Test'] == 'Tax_Subsidy_First':
+#       return p_gradient_ORDER_OPS(params, substep, state_history, prev_state)
+#    if params['AB_Test'] == 'Fake_Penalty_First':
+#       return p_gradient(params, substep, state_history, prev_state)  
+#    raise KeyError('\'{}\' is not a valid function. Check your params'.format(params['AB_Test']))
+
+
+#### USE ONLY FOR A/B WITH PARAMETER SWEEPS
+factors = [A_B_TESTS,TAX, SUBSIDY_TREASURY, SUBSIDY_ESCROW]
+product = list(itertools.product(*factors))
+A_B_TESTS, TAX, SUBSIDY_TREASURY, SUBSIDY_ESCROW = zip(*product)
+A_B_TESTS = list(A_B_TESTS)
+TAX = list(TAX)
+SUBSIDY_TREASURY = list(SUBSIDY_TREASURY)
+SUBSIDY_ESCROW = list(SUBSIDY_ESCROW)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 sys_params = {
@@ -96,5 +133,6 @@ sys_params = {
    'prove_allocation': PROVE_ALLOCATION,
    'starting_treasury': STARTING_TREASURY_TOKENS,
    'j_prove_likelihood': PROOF_LIKELIHOOD,
+   'AB_Test' : A_B_TESTS,
 
 }

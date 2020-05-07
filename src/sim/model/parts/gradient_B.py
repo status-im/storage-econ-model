@@ -6,18 +6,10 @@ import scipy.stats as stats
 from ..sys_params import sys_params
 from ..utils import *
 
-# from ..sys_params import calc_subsidy
-
-def p_ORDER_TEST(params, substep, state_history, prev_state):
-   if params['AB_Test'] == 'Tax_Subsidy_First':
-      return p_gradient_ORDER_OPS(params, substep, state_history, prev_state)
-   if params['AB_Test'] == 'Fake_Penalty_First':
-      return p_gradient(params, substep, state_history, prev_state)  
-   raise KeyError('\'{}\' is not a valid function. Check your params'.format(params['AB_Test']))
-
 ## Calculate p_gradient using contract info(escrow and proving time and distance)
-def p_gradient(params, substep, state_history, prev_state):
+def p_gradient_B(params, substep, state_history, prev_state):
     '''
+    TEST WITH BOUNDED MINIMA OF SUBSIDY
     Calculate polar coordinates from solved message distance and time.
     Calculate actual z_score and posterior expected z_score.
     Compute tax and subsidy dependent on difference between actual and expected z_score, and amount escrowed for the message.
@@ -110,7 +102,7 @@ def p_gradient(params, substep, state_history, prev_state):
         fake_penalty_coef = p_hat_star**9 # WORKED ! Param sweep this
 
         fake_penalty = escrow * fake_penalty_coef
-        # print('fake penalty', fake_penalty)
+        print('fake penalty', fake_penalty)
 
 #################  A /B TEST NUMBER 2 TEST TEST ORDER OF OPERATIONS FOR ESCROW FAKE FIRST ##############################################
         # remaining escrow
@@ -138,11 +130,8 @@ def p_gradient(params, substep, state_history, prev_state):
             subsidy_from_treasury = np.array(params['subsidy_treasury'], dtype = float) * diff * prev_state['treasury']
             subsidy_from_escrow = np.array(params['subsidy_escrow'], dtype = float) * diff * np.array(escrow, dtype = float)
 #################  A /B TEST NUMBER 1 TEST BOUNDS OF SUBSIDY ##############################################
-            # subsidy = min(subsidy_from_treasury, subsidy_from_escrow)
-            subsidy = subsidy_from_escrow + subsidy_from_treasury
-            # subsidy = calc_subsidy(params['AB_Test'], subsidy_from_treasury, subsidy_from_escrow)
-#################  A /B TEST NUMBER 1 TEST BOUNDS OF SUBSIDY ##############################################
-
+            subsidy = min(subsidy_from_treasury, subsidy_from_escrow)
+            # subsidy = subsidy_from_escrow + subsidy_from_treasury
             tax = 0
 
         # tax  = regressor tax for slow routing + penalty for being fake
@@ -162,6 +151,7 @@ def p_gradient(params, substep, state_history, prev_state):
 
     return {'gradient_update': angles, 'tax': tax, 'subsidy':subsidy, 'proving_node': proving_node, 'escrow': escrow , 'p_hat': p_hat} #, 'commitment': token}
 
+    ## Calculate p_gradient using contract info(escrow and proving time and distance)
 def p_gradient_ORDER_OPS(params, substep, state_history, prev_state):
     '''
     TEST WITH ORDER: PENALIZING FAKE ROUTE BEFORE TAKING % TAX OR REWARDING % SUBSIDY
@@ -308,172 +298,3 @@ def p_gradient_ORDER_OPS(params, substep, state_history, prev_state):
         p_hat = None
 
     return {'gradient_update': angles, 'tax': tax, 'subsidy':subsidy, 'proving_node': proving_node, 'escrow': escrow , 'p_hat': p_hat} #, 'commitment': token}
-
-def s_angles(params, substep, state_history, prev_state, policy_input):
-    '''
-    Collects and stores angles from not f hat solved routes.
-    '''
-    key = 'angles'
-    value = prev_state['angles']
-    new_route = policy_input['gradient_update']
-
-    condition = policy_input['p_hat']
-    condition = 1 if condition is None else condition
-# FOR TESTING CONDITIONAL VALUE
-    if condition < 0.80:
-        value = np.append(value, new_route)
-
-    return (key, value)
-
-
-def s_zees(params, substep, state_history, prev_state, policy_input):
-    '''
-    Update all z_scroes with solved angle from new message solve
-    Append new angle to gradient state (array of angles).
-    Re-calculate all z_scores. 
-    Stored as state for computation of actual z_score in the next state. 
-    '''
-    key = 'zees'
-    value = prev_state['zees']
-    all_angles = prev_state['angles']
-    # gradient = np.append(gradient, angles)
-    new_route = policy_input['gradient_update']
-    # print('new', new)
-    # if new_route is not None:
-
-    condition = policy_input['p_hat']
-    condition = 1 if condition is None else condition
-#  > 0.75 and 
-    if condition < 0.80:    
-        all_angles = np.append(all_angles, new_route)
-        value = stats.zscore(all_angles)
-
-    return (key, value)
-
-def s_treasury(params, substep, state_history, prev_state, policy_input):
-    '''
-    Update treasury account for solved message with tax/subsidy
-    Add for tax. Subtract for subsidy from gradient policy.
-    '''
-    key = 'treasury'
-    value = prev_state['treasury']
-    
-    # Preset in config loop
-    # Handling initialization of starting treasury
-    # Moved to s_init_treasury
-    # if prev_state['timestep'] == 1:
-    #     initial_tokens = params['starting_treasury']
-    # else:
-    #     initial_tokens = 0
-    # value += initial_tokens
-
-    delta = policy_input['tax'] - policy_input['subsidy']
-    value += delta 
-
-    return (key, value)
-
-
-def s_reconcile(params, substep, state_history, prev_state, policy_input):
-    '''
-    Update the escrow amount for each solved message with its computed tax/subsidy from p_gradient.
-    '''
-    key = 'event'
-
-    list_length = prev_state['history'].solved
-    if len(list_length) > 0:
-        last_message = prev_state['history'].solved[-1]
-        last_message.incentive(tax = policy_input['tax'], subsidy = policy_input['subsidy'])
-
-    value = prev_state['event']
-
-    return (key, value)
-    
-
-def s_f_hat_angles(params, substep, state_history, prev_state, policy_input):
-    '''
-    Update the angles of routes in the f_hat distribution. Routes that are classified as fake.
-    '''
-    key = 'f_hat_angles'
-    value = prev_state['f_hat_angles']
-
-    condition = policy_input['p_hat']
-
-    
-    condition = 0 if condition is None else condition
-    print('fhat condition = ', condition)
-    
-#  > 0.75 and 
-    if condition > 0.80:
-        
-        print('f hat conditional triggered')
-        all_angles = prev_state['f_hat_angles']
-        # gradient = np.append(gradient, angles)
-        new_route = policy_input['gradient_update']
-
-        value = np.append(all_angles, new_route)
-
-    return (key, value)
-
-def s_f_hat(params, substep, state_history, prev_state, policy_input):
-    '''
-    Update the z_scores of the routes in the f_hat distribution. Routes that are classified as fake.
-    '''
-    key = 'f_hat'
-    value = prev_state['f_hat']
-
-    condition = policy_input['p_hat']
-
-    
-    condition = 0 if condition is None else condition
-    print('fhat condition = ', condition)
-    
-#  > 0.75 and 
-    if condition > 0.80:
-        
-        print('f hat conditional triggered')
-        all_angles = prev_state['f_hat_angles']
-        # gradient = np.append(gradient, angles)
-        new_route = policy_input['gradient_update']
-
-        all_angles = np.append(all_angles, new_route)
-        value = stats.zscore(all_angles)
-
-    return (key, value)
-
-# def s_not_f_hat_angles(params, substep, state_history, prev_state, policy_input):
-#     '''
-#     Update the f_hat.
-#     '''
-#     key = 'not_f_hat_angles'
-#     value = prev_state['not_f_hat_angles']
-
-#     condition = policy_input['p_hat']
-#     condition = 1 if condition is None else condition
-# #  > 0.75 and 
-#     if condition < 0.75:
-#         print('not f hat angles conditional triggered')
-#         new_route = policy_input['gradient_update']
-
-#         value = np.append(value, new_route)
-      
-#     return (key, value)
-
-# def s_not_f_hat(params, substep, state_history, prev_state, policy_input):
-#     '''
-#     Update the f_hat.
-#     '''
-#     key = 'not_f_hat'
-#     value = prev_state['not_f_hat']
-
-#     condition = policy_input['p_hat']
-#     condition = 1 if condition is None else condition
-# #  > 0.75 and 
-#     if condition < 0.75:
-#         all_angles = prev_state['not_f_hat_angles']
-#         # gradient = np.append(gradient, angles)
-#         new_route = policy_input['gradient_update']
-
-#         all_angles = np.append(all_angles, new_route)
-#         value = stats.zscore(all_angles)
-
-#     return (key, value)

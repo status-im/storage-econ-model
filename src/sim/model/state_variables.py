@@ -88,6 +88,11 @@ ij.nodes['k']['routing_table'] = route_table(ij, 'k')
 ij.nodes['p']['routing_table'] = route_table(ij, 'p')
 ij.nodes['r']['routing_table'] = route_table(ij, 'r')
 
+## Fake Route Initialization #######################################
+f_hat = np.linspace(-3,3,num =3, dtype = float)
+f_hat_angles = np.linspace(-1,1,num =3, dtype = float)
+not_f_hat_angles = np.linspace(-1,1,num =3, dtype = float)
+not_f_hat = np.linspace(-3,3,num =30, dtype = float)
  
 
 ## Genesis States #################################################
@@ -110,5 +115,9 @@ genesis_states = {
     'angles': np.array([0,1,-1], dtype = float),
     'zees': np.array([0,1,-1], dtype = float),
     'treasury': 0,
-    'transit' : 0
+    'transit' : 0,
+    'f_hat_angles': f_hat_angles,
+    'f_hat': f_hat,
+#     'not_f_hat_angles': not_f_hat_angles, 
+#     'not_f_hat': not_f_hat,
 }
