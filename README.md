@@ -27,7 +27,7 @@ Requires [Python 3](https://www.python.org/downloads/)
 
 ** Install Using [pip](https://pypi.org/project/cadCAD/)** 
 ```bash
-pip3 install cadCAD
+pip3 install cadCAD jupyter networkx scipy matplotlib seaborn
 ```
 
  
