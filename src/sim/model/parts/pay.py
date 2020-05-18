@@ -18,9 +18,12 @@ def s_network_proof_payment(params, substep, state_history, prev_state, policy_i
         tokens = solved_message.escrow
              
         # pay prover
+        prove_allocation = (1 -  np.array(params['route_allocation'], dtype = float) - np.array(params['store_allocation'], dtype = float))
+        print('prove allocation', prove_allocation)
         proving_node = solved_message.proving_node
         prove_wallet = np.array(value.nodes[proving_node]['wallet'], dtype = 'float')
-        prove_wallet += tokens * np.array(params['prove_allocation'], dtype = float)
+        # prove_wallet += tokens * np.array(params['prove_allocation'], dtype = float)
+        prove_wallet += tokens * prove_allocation
         value.nodes[proving_node]['wallet'] = prove_wallet
 
         # pay storer

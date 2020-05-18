@@ -16,7 +16,11 @@ def p_new_message(params, substep, state_history, prev_state):
     # commitment in tokens
 ##########################################################################################
     # random for now, MAKE as DECISION by ENTITY INFORMED by SYSTEM
-    token = np.random.randint(2,100)
+   
+    message_token = float(new_message_size)  * float(params['message_base_cost']) * float(np.abs(np.random.normal(1,params['utility_cost_volatility'])))
+    storage_token = float(new_message_size) * float(params['storage_base_cost'])
+
+    token = int(message_token + storage_token)
 ##########################################################################################    
     return {'new_event': value, 'commitment': token}
     

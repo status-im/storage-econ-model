@@ -54,19 +54,24 @@ depth = [15]
 
 # TREASURY ACCOUNTING PARAMETERS
 STARTING_TREASURY_TOKENS = [0] #[0, 1000, 2000]  #[0] #
-TAX = [0.05] #[0.05,0.10,0.15, 0.20][0.05] #  [0.05,0.10,0.15] #
-SUBSIDY_TREASURY =[0.10, 0.20, 0.30] # [0.20] #  #[0.05,0.10,0.15, 0.20]# [0.10] #
-SUBSIDY_ESCROW = [0.20] #[0.10, 0.20, 0.30] #[0.25] #[0.05,0.10,0.15, 0.20] 
+TAX =  [0.05] #[0.15,0.25,0.35] # [0.05] # [0.15,0.25,0.35]  # [0.05,0.10,0.15] #[0.05,0.10,0.15, 0.20][0.05] #
+SUBSIDY_TREASURY =[0.20] # [0.10, 0.20, 0.30] #  #[0.05,0.10,0.15, 0.20]# [0.10] #
+SUBSIDY_ESCROW =  [0.20] #[0.10, 0.20, 0.30] #[0.25] #[0.05,0.10,0.15, 0.20]
 
 # ALLOCATION PARAMETERS
-ROUTE_ALLOCATION = [0.10]
-STORE_ALLOCATION = [0.45]
-PROVE_ALLOCATION = list(1 - np.array(ROUTE_ALLOCATION) - np.array(STORE_ALLOCATION))
+ROUTE_ALLOCATION = [0.20] #[0.10, .20, .30] # [0.10, .20, .30]
+STORE_ALLOCATION = [0.25, 0.35, 0.45]  #[0.25, 0.35, 0.45] [0.35] #
+# PROVE_ALLOCATION = list(1 - np.array(ROUTE_ALLOCATION) - np.array(STORE_ALLOCATION))
 
 # Prove Likelihood for Recipient J
 PROOF_LIKELIHOOD = [0.95]
 
-# A/B Test Functions
+# Messaging Storage Cost Parameters
+STORAGE_BASE_COST = [0.51]  # $0.0003 / mb  in SNT 
+MEESAGE_BASE_COST = [0.034]  #  $0.00002 / mb IN SNT
+UTILITY_COST_VOLATILITY = [1]
+
+########### A/B Test Functions ################################################
 # Bound Test
 # A_B_TESTS = ['bound', 'partition']
 # def calc_subsidy(param_test, subsidy_from_treasury, subsidy_from_escrow):
@@ -77,7 +82,8 @@ PROOF_LIKELIHOOD = [0.95]
 #    return subsidy
 # CONTROL = ''
 
-A_B_TESTS = ['Tax_Subsidy_First', 'Fake_Penalty_First']
+###### order OF operations ####################################
+A_B_TESTS = ['Tax_Subsidy_First'] #, 'Fake_Penalty_First']
 
 # Moved to gradient.py
 # def p_ORDER_TEST(params, substep, state_history, prev_state):
@@ -88,15 +94,21 @@ A_B_TESTS = ['Tax_Subsidy_First', 'Fake_Penalty_First']
 #    raise KeyError('\'{}\' is not a valid function. Check your params'.format(params['AB_Test']))
 
 
-#### USE ONLY FOR A/B WITH PARAMETER SWEEPS
-factors = [A_B_TESTS,TAX, SUBSIDY_TREASURY, SUBSIDY_ESCROW]
-product = list(itertools.product(*factors))
-A_B_TESTS, TAX, SUBSIDY_TREASURY, SUBSIDY_ESCROW = zip(*product)
-A_B_TESTS = list(A_B_TESTS)
-TAX = list(TAX)
-SUBSIDY_TREASURY = list(SUBSIDY_TREASURY)
-SUBSIDY_ESCROW = list(SUBSIDY_ESCROW)
+#### USE ONLY FOR A/B WITH PARAMETER SWEEPS ###########################
+# factors = [A_B_TESTS,TAX]
+# product = list(itertools.product(*factors))
+# A_B_TESTS, TAX = zip(*product)
+# A_B_TESTS = list(A_B_TESTS)
+# TAX = list(TAX)
 
+factors = [A_B_TESTS,STORE_ALLOCATION, TAX, ROUTE_ALLOCATION]
+product = list(itertools.product(*factors))
+A_B_TESTS,  STORE_ALLOCATION, TAX, ROUTE_ALLOCATION = zip(*product)
+A_B_TESTS = list(A_B_TESTS)
+STORE_ALLOCATION = list(STORE_ALLOCATION)
+TAX = list(TAX)
+ROUTE_ALLOCATION = list(ROUTE_ALLOCATION)
+# PROVE_ALLOCATION = list(PROVE_ALLOCATION)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 sys_params = {
    'block_time': BLOCK_TIME,
@@ -130,9 +142,12 @@ sys_params = {
    'subsidy_treasury': SUBSIDY_TREASURY,
    'route_allocation': ROUTE_ALLOCATION,
    'store_allocation': STORE_ALLOCATION,
-   'prove_allocation': PROVE_ALLOCATION,
+   # 'prove_allocation': PROVE_ALLOCATION,
    'starting_treasury': STARTING_TREASURY_TOKENS,
    'j_prove_likelihood': PROOF_LIKELIHOOD,
    'AB_Test' : A_B_TESTS,
+   'storage_base_cost' : STORAGE_BASE_COST,
+   'message_base_cost' : MEESAGE_BASE_COST,
+   'utility_cost_volatility' : UTILITY_COST_VOLATILITY,
 
 }
