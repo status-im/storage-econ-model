@@ -59,8 +59,9 @@ SUBSIDY_TREASURY =[0.20] # [0.10, 0.20, 0.30] #  #[0.05,0.10,0.15, 0.20]# [0.10]
 SUBSIDY_ESCROW =  [0.20] #[0.10, 0.20, 0.30] #[0.25] #[0.05,0.10,0.15, 0.20]
 
 # ALLOCATION PARAMETERS
-ROUTE_ALLOCATION = [0.20] #[0.10, .20, .30] # [0.10, .20, .30]
-STORE_ALLOCATION = [0.25, 0.35, 0.45]  #[0.25, 0.35, 0.45] [0.35] #
+ROUTE_ALLOCATION = [0.25, 0.35, 0.45]  # [0.20] #[0.10, .20, .30] # [0.10, .20, .30]
+STORE_ALLOCATION = [0.35] # [0.25, 0.35, 0.45] 
+# Removed as a parameter because it is dependent
 # PROVE_ALLOCATION = list(1 - np.array(ROUTE_ALLOCATION) - np.array(STORE_ALLOCATION))
 
 # Prove Likelihood for Recipient J
