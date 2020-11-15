@@ -1,6 +1,17 @@
 ## A Status and BlockScience Collaboration 
 ### Economic Model Research, Simulation, and Testing
 
+### Architecture Digest
+[Contextual hierarchy](Status_Digest_1_Architecture.pdf) of the STATUS network as a cryptoeconomic system.
+
+### Cooperative Behavior Digest
+[Incentive Mechanism](Status_Digest_2_Cooperative_Behavior.pdf) underlying the p2p network.
+
+### Models and Tests
+Implementing the above architecture and design decisions into models reside in branches in this repository. 
+
+Simulations and tests were performed using cadCAD.
+
 #### To explore for yourself, you must install Python 3 and our Python package ***cadCAD*** .
 ```
                     __________   ____
@@ -21,13 +32,13 @@ by BlockScience
 ```
 ***cadCAD*** is a Python package that assists in the processes of designing, testing and validating complex systems through simulation, with support for Monte Carlo methods, A/B testing and parameter sweeping. 
 
-# Getting Started
+# Getting Started with cadCAD
 ## 1. Installation: 
 Requires [Python 3](https://www.python.org/downloads/) 
 
 ** Install Using [pip](https://pypi.org/project/cadCAD/)** 
 ```bash
-pip3 install cadCAD jupyter networkx scipy matplotlib seaborn
+pip3 install cadCAD
 ```
 
  
@@ -45,3 +56,6 @@ Familiarize yourself with some system modelling concepts and cadCAD terminology.
 
 ## 4. Connect
 Find other cadCAD users at our [Discourse](https://community.cadcad.org/). We are a small but rapidly growing community.
+
+## 5. Install Dependent Data Science Libraries
+pip3 install numpy pandas jupyter networkx scipy matplotlib seaborn
