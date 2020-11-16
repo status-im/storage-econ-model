@@ -95,16 +95,16 @@ This works with just about all Unix systems as well as MacOS, for pure reproduci
 affect your local environment.
 
 ## 2. Documentation:
-* [Simulation Configuration](documentation/README.md)
-* [Simulation Execution](documentation/Simulation_Execution.md)
-* [Policy Aggregation](documentation/Policy_Aggregation.md)
-* [Parameter Sweep](documentation/System_Model_Parameter_Sweep.md)
-* [Display System Model Configurations](documentation/System_Configuration.md)
+* [Simulation Configuration](https://github.com/cadCAD-org/cadCAD/blob/master/documentation/README.md)
+* [Simulation Execution](https://github.com/cadCAD-org/cadCAD/blob/master/documentation/Simulation_Execution.md)
+* [Policy Aggregation](https://github.com/cadCAD-org/cadCAD/blob/master/documentation/Policy_Aggregation.md)
+* [Parameter Sweep](https://github.com/cadCAD-org/cadCAD/blob/master/documentation/System_Model_Parameter_Sweep.md)
+* [Display System Model Configurations](https://github.com/cadCAD-org/cadCAD/blob/master/documentation/System_Configuration.md)
 
 ## 3. Connect:
 Find other cadCAD users at our [Discourse](https://community.cadcad.org/). We are a small but rapidly growing community.
 
-## 4. [Contribute!](CONTRIBUTING.md)
+## 4. [Contribute!](https://github.com/cadCAD-org/cadCAD/blob/master/CONTRIBUTING.md)
 
 ## 5. Install Dependent Data Science Libraries
 ```
