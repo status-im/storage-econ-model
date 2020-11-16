@@ -1,19 +1,19 @@
 ## A Status and BlockScience Collaboration 
 ### Economic Model Research, Simulation, and Testing
-
+***
 ### Architecture Digest
 [Contextual hierarchy](Status_Digest_1_Architecture.pdf) of the STATUS network as a cryptoeconomic system.
 
 ### Cooperative Behavior Digest
 [Incentive Mechanism](Status_Digest_2_Cooperative_Behavior.pdf) underlying the p2p network.
-
+***
 ### Models and Tests
 Implementing the above architecture and design decisions into models reside in branches in this repository. 
 
 #### Validation Model
 [Network Routing Model](https://github.com/status-im/storage-econ-model/tree/validation_model) validating networkx objects as class within simulation for retaining activity and dynamic local connectivity information.
 
-#### OVerlay Network Model
+#### Overlay Network Model
 Building off the validation model, adding [Kademlia Ping and Store RPC methods](https://github.com/status-im/storage-econ-model/tree/ijkp_kdf) for maintaining node neighborhood activity and liveness logs.
 
 #### Online Learning Incentive Model
