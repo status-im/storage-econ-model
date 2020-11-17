@@ -22,7 +22,7 @@ Building off the validation model, adding [Kademlia Ping and Store RPC methods](
 An [online learning incentive model](https://github.com/status-im/storage-econ-model/tree/subsidy_tax_tuning) provides sudsidies and charges penalties for incentivizing faster routing. A series of experiments explores the parametric tuning of the classifier as well as the amount of message payment subject to penalty and available for subsidy.
 
 ### Payment Distribution Testing
-Experiments allocating payemnt percentages for proscribed tasks necessary for [message routing](https://github.com/status-im/storage-econ-model/tree/route_allocation_test) and [message storage](https://github.com/status-im/storage-econ-model/tree/storage_allocation_test). Both sets of parametric tests explore the economic fabric of the network as nodes take on blended tasks to operate the network through the concept of personas.
+Experiments allocating payment percentages for proscribed tasks necessary for [message routing](https://github.com/status-im/storage-econ-model/tree/route_allocation_test) and [message storage](https://github.com/status-im/storage-econ-model/tree/storage_allocation_test). Both sets of parametric tests explore the economic fabric of the network as nodes take on blended tasks to operate the network through the concept of personas.
 
 ### Escrow Relaxation
 Moving away from necessitating escrowed payment prior to message initiation to allow for [cooperative behavior](https://github.com/status-im/storage-econ-model/tree/escrow_relaxation) in a decentralized manner. 
