@@ -1,28 +1,30 @@
 ## A Status and BlockScience Collaboration 
 ### Economic Model Research, Simulation, and Testing
 ***
+## Educational Digests
+The following documents constitute two of a planned four “walkthrough” digests of the Status peer-to-peer (p2p) network’s implementation in cadCAD. The first digest commences with a detailed overview of the architecture of the network, covering the participants, p2p structure, system goals and its concomitant design. The second digest covers a behavioral model of reputation and trust between p2p members, using research in collective decision-making and emergent cooperation along with random auditing as an incentive mechanism. The third digest (in progress) casts the network as a generalized dynamical system (GDS), which provides a mapping from the system and its architecture to its implementation in the cadCAD framework for simulation. The fourth digest will indicate future steps, both to expand cadCAD’s use as a simulation and testing tool and to demonstrate the possibility of leveraging cadCAD’s modularity to implement a Decision Support System for running networks, as a “Digital Twin”.
 ### Architecture Digest
 [Contextual hierarchy](Status_Digest_1_Architecture.pdf) of the STATUS network as a cryptoeconomic system.
 
 ### Cooperative Behavior Digest
 [Incentive Mechanism](Status_Digest_2_Cooperative_Behavior.pdf) underlying the p2p network.
 ***
-### Models and Tests
+## Models and Tests
 Implementing the above architecture and design decisions into models reside in branches in this repository. 
 
-#### Validation Model
+### Validation Model
 [Network Routing Model](https://github.com/status-im/storage-econ-model/tree/validation_model) validating networkx objects as class within simulation for retaining activity and dynamic local connectivity information.
 
-#### Overlay Network Model
+### Overlay Network Model
 Building off the validation model, adding [Kademlia Ping and Store RPC methods](https://github.com/status-im/storage-econ-model/tree/ijkp_kdf) for maintaining node neighborhood activity and liveness logs.
 
-#### Online Learning Incentive Model
+### Online Learning Incentive Model
 An [online learning incentive model](https://github.com/status-im/storage-econ-model/tree/subsidy_tax_tuning) provides sudsidies and charges penalties for incentivizing faster routing. A series of experiments explores the parametric tuning of the classifier as well as the amount of message payment subject to penalty and available for subsidy.
 
-#### Payment Distribution Testing
+### Payment Distribution Testing
 Experiments allocating payemnt percentages for proscribed tasks necessary for [message routing](https://github.com/status-im/storage-econ-model/tree/route_allocation_test) and [message storage](https://github.com/status-im/storage-econ-model/tree/storage_allocation_test). Both sets of parametric tests explore the economic fabric of the network as nodes take on blended tasks to operate the network through the concept of personas.
 
-#### Escrow Relaxation
+### Escrow Relaxation
 Moving away from necessitating escrowed payment prior to message initiation to allow for [cooperative behavior](https://github.com/status-im/storage-econ-model/tree/escrow_relaxation) in a decentralized manner. 
 
 Simulations and tests were performed using cadCAD.
