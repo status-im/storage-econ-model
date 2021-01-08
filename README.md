@@ -8,6 +8,9 @@ The following documents constitute two of a planned four “walkthrough” diges
 
 ### Cooperative Behavior Digest
 [Incentive Mechanism](Status_Digest_2_Cooperative_Behavior.pdf) underlying the p2p network.
+
+### Generalized Dynamical System Digest
+The STATUS network composed as a Generalized Dynamical System and framed in a [cadCAD Specification](Status_Digest_3__cadCAD_Representation.pdf).
 ***
 ## Models and Tests
 Implementing the above architecture and design decisions into models reside in branches in this repository. 
