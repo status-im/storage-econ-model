@@ -11,6 +11,9 @@ The following documents constitute two of a planned four “walkthrough” diges
 
 ### Generalized Dynamical System Digest
 The STATUS network composed as a Generalized Dynamical System and framed in a [cadCAD Specification](Status_Digest_3__cadCAD_Representation.pdf).
+
+### Decision Support System Digest
+The framework for the cadCAD model to serve as a [Decision Support System](Status_Digest_4_DSS.pdf) for the STATUS network utilizing the parameter selection under uncertainty workflow. 
 ***
 ## Models and Tests
 Implementing the above architecture and design decisions into models reside in branches in this repository. 
